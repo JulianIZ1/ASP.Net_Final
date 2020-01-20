@@ -4,14 +4,16 @@ using System.Linq;
 using System.Web;
 using System.IO;
 using System.Security.Cryptography;
+using System.Data.SqlClient;
+using System.Data;
 namespace WebFinalProject
 {
     public class DBConnection
     {
-            public SqlConnection connString = new SqlConnection("server=DESKTOP-U98Q6LB; initial catalog=REFILL_PROJECT; integrated security=SSPI; connect timeout=10;");
-            public SqlCommand cmdString = new SqlCommand();
+            public SqlClient.SqlConnection connString = new SqlClient.SqlConnection("server=DESKTOP-U98Q6LB; initial catalog=REFILL_PROJECT; integrated security=SSPI; connect timeout=10;");
+            public SqlClient.SqlCommand cmdString = new SqlClient.SqlCommand();
             public string Reply, Reply2;
-            public SqlDataAdapter aAdapter = new SqlDataAdapter();
+            public SqlClient.SqlDataAdapter aAdapter = new SqlClient.SqlDataAdapter();
             public DataSet aDataSet = new DataSet();
             public string userPassword = "";
             public string hidePassword = "";
@@ -19,6 +21,7 @@ namespace WebFinalProject
             public string UserType;
             private byte[] key = new[] { };
             private byte[] IV = new[] { 0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF };
+
         public void LoginCheck(object username)
         {
 
