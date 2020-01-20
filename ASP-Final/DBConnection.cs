@@ -4,16 +4,16 @@ using System.Linq;
 using System.Web;
 using System.IO;
 using System.Security.Cryptography;
-using System.Data.SqlClient;
-using System.Data;
+
 namespace WebFinalProject
 {
+
     public class DBConnection
     {
-            public SqlClient.SqlConnection connString = new SqlClient.SqlConnection("server=DESKTOP-U98Q6LB; initial catalog=REFILL_PROJECT; integrated security=SSPI; connect timeout=10;");
-            public SqlClient.SqlCommand cmdString = new SqlClient.SqlCommand();
+            SqlConnection connString = new SqlConnection(@"Data Source=DESKTOP-U98Q6LB;Initial Catalog=REFILL_PROJECT;Integrated Security=True");
+            SqlCommand cmdString = new SqlCommand();
             public string Reply, Reply2;
-            public SqlClient.SqlDataAdapter aAdapter = new SqlClient.SqlDataAdapter();
+            public SqlDataAdapter aAdapter = new SqlDataAdapter();
             public DataSet aDataSet = new DataSet();
             public string userPassword = "";
             public string hidePassword = "";
@@ -21,35 +21,35 @@ namespace WebFinalProject
             public string UserType;
             private byte[] key = new[] { };
             private byte[] IV = new[] { 0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF };
-
-        public void LoginCheck(object username)
+       
+    }
+    public void LoginCheck(object username)
+    {
+        try
         {
-
+            cmdString.Parameters.Clear();
+            connString.Open();
             try
             {
-                cmdString.Parameters.Clear();
-                connString.Open();
-                try
+                if ((username.Length != 5) | (username == "Username") | (username == null))
                 {
-                    if ((username.Length != 5) | (username == "Username") | (username == null))
+                    return Reply == "Bad Login";
+                    return;
+                }
+                UserType = username.Substring(0, 1);
+                {
+                    var withBlock = cmdString;
+                    withBlock.Connection = connString;
+                    withBlock.CommandType = CommandType.StoredProcedure;
+                    withBlock.CommandTimeout = 900;
+                    switch (UserType)
                     {
-                        return Reply == "Bad Login";
-                        return;
-                    }
-                    UserType = username.Substring(0, 1);
-                    {
-                        var withBlock = cmdString;
-                        withBlock.Connection = connString;
-                        withBlock.CommandType = CommandType.StoredProcedure;
-                        withBlock.CommandTimeout = 900;
-                        switch (UserType)
-                        {
-                            case object _ when ("P").ToUpper():
-                                {
-                                    withBlock.CommandText = "CHECKPATIENTS";
-                                    withBlock.Parameters.Add("@PATIENT_ID", SqlDbType.VarChar, 5).Value = username;
-                                    break;
-                                }
+                        case object _ when ("P").ToUpper():
+                            {
+                                withBlock.CommandText = "CHECKPATIENTS";
+                                withBlock.Parameters.Add("@PATIENT_ID", SqlDbType.VarChar, 5).Value = username;
+                                break;
+                            }
 
                             case object _ when ("D").ToUpper():
                                 {
@@ -995,8 +995,4 @@ namespace WebFinalProject
             }
             connString.Close();
         }
-    }
-
-
-
 }
