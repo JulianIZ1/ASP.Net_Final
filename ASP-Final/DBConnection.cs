@@ -35,7 +35,7 @@ namespace WebFinalProject
             {
                 if ((username.Length != 5) | (username == "Username") | (username == null))
                 {
-                    return "Bad Login";
+                    return Reply == "Bad Login";
                     return;
                 }
                 UserType = username.Substring(0, 1);
