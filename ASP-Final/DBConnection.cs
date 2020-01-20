@@ -4,14 +4,18 @@ using System.Linq;
 using System.Web;
 using System.IO;
 using System.Security.Cryptography;
+using System.Data.SqlClient;
+using System.Data;
+using FParsec;
+
 namespace WebFinalProject
 {
     public class DBConnection
     {
-            public SqlClient.SqlConnection connString = new SqlClient.SqlConnection("server=CNSA07E-SVR; initial catalog=REFILL_PROJECT; integrated security=SSPI; connect timeout=10;");
-            public SqlClient.SqlCommand cmdString = new SqlClient.SqlCommand();
+            public SqlConnection connString = new SqlConnection("server=CNSA07E-SVR; initial catalog=REFILL_PROJECT; integrated security=SSPI; connect timeout=10;");
+            public SqlCommand cmdString = new SqlCommand();
             public string Reply, Reply2;
-            public SqlClient.SqlDataAdapter aAdapter = new SqlClient.SqlDataAdapter();
+            public SqlDataAdapter aAdapter = new SqlDataAdapter();
             public DataSet aDataSet = new DataSet();
             public string userPassword = "";
             public string hidePassword = "";
@@ -31,7 +35,7 @@ namespace WebFinalProject
             {
                 if ((username.Length != 5) | (username == "Username") | (username == null))
                 {
-                    return Reply == "Bad Login";
+                    return "Bad Login";
                     return;
                 }
                 UserType = username.Substring(0, 1);
@@ -78,6 +82,8 @@ namespace WebFinalProject
         }
         return Reply == "";
     }
+
+    /*
     public void ViewPatients()
     {
         try
@@ -993,6 +999,6 @@ namespace WebFinalProject
         }
         connString.Close();
     }
-
+    */
 
 }
