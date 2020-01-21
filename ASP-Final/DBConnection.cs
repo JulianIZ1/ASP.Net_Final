@@ -4,16 +4,12 @@ using System.Linq;
 using System.Web;
 using System.IO;
 using System.Security.Cryptography;
-using System.Data.SqlClient;
-using System.Data;
-
 namespace WebFinalProject
 {
-
     public class DBConnection
     {
-            SqlConnection connString = new SqlConnection(@"Data Source=DESKTOP-U98Q6LB;Initial Catalog=REFILL_PROJECT;Integrated Security=True");
-            SqlCommand cmdString = new SqlCommand();
+            public SqlConnection connString = new SqlConnection("server=DESKTOP-U98Q6LB; initial catalog=REFILL_PROJECT; integrated security=SSPI; connect timeout=10;");
+            public SqlCommand cmdString = new SqlCommand();
             public string Reply, Reply2;
             public SqlDataAdapter aAdapter = new SqlDataAdapter();
             public DataSet aDataSet = new DataSet();
@@ -23,45 +19,41 @@ namespace WebFinalProject
             public string UserType;
             private byte[] key = new[] { };
             private byte[] IV = new[] { 0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF };
-       
-    }
-    public void LoginCheck(object username)
-    {
-        SqlConnection connString = new SqlConnection(@"Data Source=DESKTOP-U98Q6LB;Initial Catalog=REFILL_PROJECT;Integrated Security=True");
-        SqlCommand cmdString = new SqlCommand();
-
-        try
+        public void LoginCheck(object username)
         {
-            cmdString.Parameters.Clear();
-            connString.Open();
+
             try
             {
-                if ((username.Length != 5) | (username == "Username") | (username == null))
+                cmdString.Parameters.Clear();
+                connString.Open();
+                try
                 {
-                    return Reply == "Bad Login";
-                    return;
-                }
-                UserType = username.Substring(0, 1);
-                {
-                    var withBlock = cmdString;
-                    withBlock.Connection = connString;
-                    withBlock.CommandType = CommandType.StoredProcedure;
-                    withBlock.CommandTimeout = 900;
-                    switch (UserType)
+                    if ((username.Length != 5) | (username == "Username") | (username == null))
                     {
-                        case object _ when "P".ToUpper():
-                            {
-                                withBlock.CommandText = "CHECKPATIENTS";
-                                withBlock.Parameters.Add("@PATIENT_ID", SqlDbType.VarChar, 5).Value = username;
-                                break;
-                            }
+                        return Reply == "Bad Login";
+                        return;
+                    }
+                    UserType = username.Substring(0, 1);
+                    {
+                        var withBlock = cmdString;
+                        withBlock.Connection = connString;
+                        withBlock.CommandType = CommandType.StoredProcedure;
+                        withBlock.CommandTimeout = 900;
+                        switch (UserType)
+                        {
+                            case object _ when ("P").ToUpper():
+                                {
+                                    withBlock.CommandText = "CHECKPATIENTS";
+                                    withBlock.Parameters.Add("@PATIENT_ID", SqlDbType.VarChar, 5).Value = username;
+                                    break;
+                                }
 
-                        case object _ when ("D").ToUpper():
-                            {
-                                withBlock.CommandText = "CHECKPHYSICIANS";
-                                withBlock.Parameters.Add("@PHYSICIAN_ID", SqlDbType.VarChar, 5).Value = username;
-                                break;
-                            }
+                            case object _ when ("D").ToUpper():
+                                {
+                                    withBlock.CommandText = "CHECKPHYSICIANS";
+                                    withBlock.Parameters.Add("@PHYSICIAN_ID", SqlDbType.VarChar, 5).Value = username;
+                                    break;
+                                }
 
                         default:
                             {
@@ -85,8 +77,6 @@ namespace WebFinalProject
         }
         return Reply == "";
     }
-
-
     public void ViewPatients()
     {
         try
@@ -476,67 +466,134 @@ namespace WebFinalProject
                             withBlock.Parameters.AddWithValue("@PATIENT_ID", RECORD_ID);
                             withBlock.ExecuteNonQuery();
 
-                            withBlock.Parameters.Clear();
-                            withBlock.Connection = connString;
-                            withBlock.CommandType = CommandType.StoredProcedure;
-                            withBlock.CommandTimeout = 900;
-                            withBlock.CommandText = "DELETEPATIENT";
-                            withBlock.Parameters.AddWithValue("@PATIENT_ID", RECORD_ID);
-                            withBlock.ExecuteNonQuery();
+                                withBlock.Parameters.Clear();
+                                withBlock.Connection = connString;
+                                withBlock.CommandType = CommandType.StoredProcedure;
+                                withBlock.CommandTimeout = 900;
+                                withBlock.CommandText = "DELETEPATIENT";
+                                withBlock.Parameters.AddWithValue("@PATIENT_ID", RECORD_ID);
+                                withBlock.ExecuteNonQuery();
+                            }
+
+                            break;
                         }
 
-                        break;
-                    }
-
-                case "PHYSICIAN":
-                    {
+                    case "PHYSICIAN":
                         {
-                            var withBlock = cmdString;
-                            withBlock.Connection = connString;
-                            withBlock.CommandType = CommandType.StoredProcedure;
-                            withBlock.CommandTimeout = 900;
-                            withBlock.CommandText = "DELETEPRESCRIPTIONBYPHYSICIAN";
-                            withBlock.Parameters.AddWithValue("@PHYSICIAN_ID", RECORD_ID);
-                            withBlock.ExecuteNonQuery();
+                            {
+                                var withBlock = cmdString;
+                                withBlock.Connection = connString;
+                                withBlock.CommandType = CommandType.StoredProcedure;
+                                withBlock.CommandTimeout = 900;
+                                withBlock.CommandText = "DELETEPRESCRIPTIONBYPHYSICIAN";
+                                withBlock.Parameters.AddWithValue("@PHYSICIAN_ID", RECORD_ID);
+                                withBlock.ExecuteNonQuery();
 
-                            withBlock.Parameters.Clear();
-                            withBlock.Connection = connString;
-                            withBlock.CommandType = CommandType.StoredProcedure;
-                            withBlock.CommandTimeout = 900;
-                            withBlock.CommandText = "DELETEPHYSICIAN";
-                            withBlock.Parameters.AddWithValue("@PHYSICIAN_ID", RECORD_ID);
-                            withBlock.ExecuteNonQuery();
+                                withBlock.Parameters.Clear();
+                                withBlock.Connection = connString;
+                                withBlock.CommandType = CommandType.StoredProcedure;
+                                withBlock.CommandTimeout = 900;
+                                withBlock.CommandText = "DELETEPHYSICIAN";
+                                withBlock.Parameters.AddWithValue("@PHYSICIAN_ID", RECORD_ID);
+                                withBlock.ExecuteNonQuery();
+                            }
+
+                            break;
                         }
 
-                        break;
-                    }
-
-                case "PRESCRIPTION":
-                    {
+                    case "PRESCRIPTION":
                         {
-                            var withBlock = cmdString;
-                            withBlock.Connection = connString;
-                            withBlock.CommandType = CommandType.StoredProcedure;
-                            withBlock.CommandTimeout = 900;
-                            withBlock.CommandText = "DELETEPRESCRIPTION";
-                            withBlock.Parameters.AddWithValue("@PRESCRIPTION_ID", RECORD_ID);
-                            withBlock.ExecuteNonQuery();
-                        }
+                            {
+                                var withBlock = cmdString;
+                                withBlock.Connection = connString;
+                                withBlock.CommandType = CommandType.StoredProcedure;
+                                withBlock.CommandTimeout = 900;
+                                withBlock.CommandText = "DELETEPRESCRIPTION";
+                                withBlock.Parameters.AddWithValue("@PRESCRIPTION_ID", RECORD_ID);
+                                withBlock.ExecuteNonQuery();
+                            }
 
-                        break;
-                    }
+                            break;
+                        }
+                }
             }
+            catch (Exception ex)
+            {
+            }
+            connString.Close();
         }
-        catch (Exception ex)
-        {
-        }
-        connString.Close();
-    }
 
-    // Uses the stored procedure ADDPHYSICIAN to add a physician record from frmAddRecordPhysician
-    public void AddPhysician(string PHYSICIAN_ID, string FNAME, string MIDINIT, string LNAME, string GENDER, string STREET, string CITY, string PHYSICIAN_STATE, decimal ZIP, DateTime DOB, string OFFICE_PHONE, string PERSONAL_PHONE, string WORK_EMAIL, string EMAIL_I, string EMAIL_II, string POSITION, string SPECIALTY, decimal SALARY)
-    {
-        try
+        // Uses the stored procedure ADDPHYSICIAN to add a physician record from frmAddRecordPhysician
+        public void AddPhysician(string PHYSICIAN_ID, string FNAME, string MIDINIT, string LNAME, string GENDER, string STREET, string CITY, string PHYSICIAN_STATE, decimal ZIP, DateTime DOB, string OFFICE_PHONE, string PERSONAL_PHONE, string WORK_EMAIL, string EMAIL_I, string EMAIL_II, string POSITION, string SPECIALTY, decimal SALARY)
+        {
+            try
+            {
+                cmdString.Parameters.Clear();
+                connString.Open();
+                {
+                    var withBlock = cmdString;
+                    withBlock.Connection = connString;
+                    withBlock.CommandType = CommandType.StoredProcedure;
+                    withBlock.CommandTimeout = 900;
+                    withBlock.CommandText = "ADDPHYSICIAN";
+                    withBlock.Parameters.AddWithValue("@PHYSICIAN_ID", PHYSICIAN_ID);
+                    withBlock.Parameters.AddWithValue("@FNAME", FNAME);
+                    withBlock.Parameters.AddWithValue("@MIDINIT", MIDINIT);
+                    withBlock.Parameters.AddWithValue("@LNAME", LNAME);
+                    withBlock.Parameters.AddWithValue("@GENDER", GENDER);
+                    withBlock.Parameters.AddWithValue("@STREET", STREET);
+                    withBlock.Parameters.AddWithValue("@CITY", CITY);
+                    withBlock.Parameters.AddWithValue("@PHYSICIAN_STATE", PHYSICIAN_STATE);
+                    withBlock.Parameters.AddWithValue("@ZIP", ZIP);
+                    withBlock.Parameters.AddWithValue("@DOB", DOB);
+                    withBlock.Parameters.AddWithValue("@OFFICE_PHONE", OFFICE_PHONE);
+                    withBlock.Parameters.AddWithValue("@PERSONAL_PHONE", PERSONAL_PHONE);
+                    withBlock.Parameters.AddWithValue("@WORK_EMAIL", WORK_EMAIL);
+                    withBlock.Parameters.AddWithValue("@EMAIL_I", EMAIL_I);
+                    withBlock.Parameters.AddWithValue("@EMAIL_II", EMAIL_II);
+                    withBlock.Parameters.AddWithValue("@POSITION", POSITION);
+                    withBlock.Parameters.AddWithValue("@SPECIALTY", SPECIALTY);
+                    withBlock.Parameters.AddWithValue("@SALARY", SALARY);
+                    withBlock.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
+            connString.Close();
+        }
+        // Uses the stored procedure ADDPRESCRIPTION to add a prescription record from frmAddRecordPrescription
+        public void AddPrescription(string PRESCRIPTION_ID, string MEDICATION_NAME, decimal REFILL_AMT, DateTime REFILL_DATE, string DOSAGE, string INTAKE_METHOD, string FREQUENCY, string PHYSICIAN_ID, string PATIENT_ID)
+        {
+            try
+            {
+                cmdString.Parameters.Clear();
+                connString.Open();
+                {
+                    var withBlock = cmdString;
+                    withBlock.Connection = connString;
+                    withBlock.CommandType = CommandType.StoredProcedure;
+                    withBlock.CommandTimeout = 900;
+                    withBlock.CommandText = "ADDPRESCRIPTION";
+                    withBlock.Parameters.AddWithValue("@PRESCRIPTION_ID", PRESCRIPTION_ID);
+                    withBlock.Parameters.AddWithValue("@MEDICATION_NAME", MEDICATION_NAME);
+                    withBlock.Parameters.AddWithValue("@REFILL_AMT", REFILL_AMT);
+                    withBlock.Parameters.AddWithValue("@REFILL_DATE", REFILL_DATE);
+                    withBlock.Parameters.AddWithValue("@DOSAGE", DOSAGE);
+                    withBlock.Parameters.AddWithValue("@INTAKE_METHOD", INTAKE_METHOD);
+                    withBlock.Parameters.AddWithValue("@FREQUENCY", FREQUENCY);
+                    withBlock.Parameters.AddWithValue("@PHYSICIAN_ID", PHYSICIAN_ID);
+                    withBlock.Parameters.AddWithValue("@PATIENT_ID", PATIENT_ID);
+                    withBlock.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            connString.Close();
+        }
+        public void UpdateRecord(string StoredProcedure)
         {
             cmdString.Parameters.Clear();
             connString.Open();
@@ -545,7 +602,138 @@ namespace WebFinalProject
                 withBlock.Connection = connString;
                 withBlock.CommandType = CommandType.StoredProcedure;
                 withBlock.CommandTimeout = 900;
-                withBlock.CommandText = "ADDPHYSICIAN";
+                withBlock.CommandText = StoredProcedure;
+            }
+            aAdapter.SelectCommand = cmdString;
+            aAdapter.Fill(aDataSet);
+            // If aDataSet.Tables(0).Rows.Count > 0 Then
+            // frmUpdateRecord.dgvRecordIDTest.DataSource = aDataSet.Tables(0)
+            // End If
+            connString.Close();
+        }
+        // Fills the patient/doctor ID comboboxes on frmAddRecordPrescription
+        public void AddPartiesPrescription(string Procedure, string DGVOutput)
+        {
+            try
+            {
+                cmdString.Parameters.Clear();
+                connString.Open();
+                {
+                    var withBlock = cmdString;
+                    withBlock.Connection = connString;
+                    withBlock.CommandType = CommandType.StoredProcedure;
+                    withBlock.CommandTimeout = 900;
+                    withBlock.CommandText = Procedure;
+                }
+                aAdapter.SelectCommand = cmdString;
+                aAdapter.Fill(aDataSet);
+                if ((aDataSet.Tables(0).Rows.Count > 0))
+                {
+                    switch (DGVOutput)
+                    {
+                        case "dgvRecordIDTest":
+                            {
+                                break;
+                            }
+
+                        case "dgvRecordIDTest2":
+                            {
+                                break;
+                            }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+            connString.Close();
+        }
+        public void AddPrescription()
+        {
+            cmdString.Parameters.Clear();
+            connString.Open();
+            {
+                var withBlock = cmdString;
+                withBlock.Connection = connString;
+                withBlock.CommandType = CommandType.StoredProcedure;
+                withBlock.CommandTimeout = 900;
+                withBlock.CommandText = "VIEWPRESCRIPTIONS";
+            }
+            aAdapter.SelectCommand = cmdString;
+            aAdapter.Fill(aDataSet);
+            if (aDataSet.Tables(0).Rows.Count > 0)
+            {
+            }
+            connString.Close();
+        }
+        public DataSet FillUpdateForms(string Record_ID, string StoredProcedure, string DataBaseColumn)
+        {
+            try
+            {
+                cmdString.Parameters.Clear();
+                connString.Open();
+                cmdString.Connection = connString;
+                cmdString.CommandType = CommandType.StoredProcedure;
+                cmdString.CommandTimeout = 1500;
+                cmdString.CommandText = StoredProcedure;
+                cmdString.Parameters.AddWithValue(DataBaseColumn, Record_ID);
+                aAdapter.SelectCommand = cmdString;
+                aAdapter.Fill(aDataSet);
+                return aDataSet;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
+            finally
+            {
+                connString.Close();
+            }
+        }
+        public DataSet ViewPrescription(string PRESCRIPTION_ID)
+        {
+            try
+            {
+                connString.Open();
+                cmdString.Connection = connString;
+                cmdString.CommandType = CommandType.StoredProcedure;
+                cmdString.CommandTimeout = 1500;
+                cmdString.CommandText = "CHECKPRESCRIPTION";
+                cmdString.Parameters.AddWithValue("@PRESCRIPTION_ID", PRESCRIPTION_ID);
+                aAdapter.SelectCommand = cmdString;
+                aAdapter.Fill(aDataSet);
+                return aDataSet;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
+            connString.Close();
+        }
+        public void CheckUpdateNulls(TextBox FormObject, string Output)
+        {
+            if ((FormObject.Text == "N/A"))
+            {
+                FormObject.Text = "";
+                // Return that there are empty textboxes
+                Reply = "Fail";
+                return;
+            }
+        }
+        public void UpdatePhysician(string PHYSICIAN_ID, string FNAME, string MIDINIT, string LNAME, string GENDER, string STREET, string CITY, string PHYSICIAN_STATE, decimal ZIP, DateTime DOB, string OFFICE_PHONE, string PERSONAL_PHONE, string WORK_EMAIL, string EMAIL_I, string EMAIL_II, string POSITION, string SPECIALTY, decimal SALARY)
+        {
+            try
+            {
+                cmdString.Parameters.Clear();
+                connString.Open();
+
+            {
+                var withBlock = cmdString;
+                withBlock.Connection = connString;
+                withBlock.CommandType = CommandType.StoredProcedure;
+                withBlock.CommandTimeout = 900;
+                withBlock.CommandText = "UPDATEPHYSICIAN";
                 withBlock.Parameters.AddWithValue("@PHYSICIAN_ID", PHYSICIAN_ID);
                 withBlock.Parameters.AddWithValue("@FNAME", FNAME);
                 withBlock.Parameters.AddWithValue("@MIDINIT", MIDINIT);
@@ -572,164 +760,6 @@ namespace WebFinalProject
             throw new ArgumentException(ex.Message);
         }
         connString.Close();
-    }
-    // Uses the stored procedure ADDPRESCRIPTION to add a prescription record from frmAddRecordPrescription
-    public void AddPrescription(string PRESCRIPTION_ID, string MEDICATION_NAME, decimal REFILL_AMT, DateTime REFILL_DATE, string DOSAGE, string INTAKE_METHOD, string FREQUENCY, string PHYSICIAN_ID, string PATIENT_ID)
-    {
-        try
-        {
-            cmdString.Parameters.Clear();
-            connString.Open();
-            {
-                var withBlock = cmdString;
-                withBlock.Connection = connString;
-                withBlock.CommandType = CommandType.StoredProcedure;
-                withBlock.CommandTimeout = 900;
-                withBlock.CommandText = "ADDPRESCRIPTION";
-                withBlock.Parameters.AddWithValue("@PRESCRIPTION_ID", PRESCRIPTION_ID);
-                withBlock.Parameters.AddWithValue("@MEDICATION_NAME", MEDICATION_NAME);
-                withBlock.Parameters.AddWithValue("@REFILL_AMT", REFILL_AMT);
-                withBlock.Parameters.AddWithValue("@REFILL_DATE", REFILL_DATE);
-                withBlock.Parameters.AddWithValue("@DOSAGE", DOSAGE);
-                withBlock.Parameters.AddWithValue("@INTAKE_METHOD", INTAKE_METHOD);
-                withBlock.Parameters.AddWithValue("@FREQUENCY", FREQUENCY);
-                withBlock.Parameters.AddWithValue("@PHYSICIAN_ID", PHYSICIAN_ID);
-                withBlock.Parameters.AddWithValue("@PATIENT_ID", PATIENT_ID);
-                withBlock.ExecuteNonQuery();
-            }
-        }
-        catch (Exception ex)
-        {
-        }
-        connString.Close();
-    }
-    public void UpdateRecord(string StoredProcedure)
-    {
-        cmdString.Parameters.Clear();
-        connString.Open();
-        {
-            var withBlock = cmdString;
-            withBlock.Connection = connString;
-            withBlock.CommandType = CommandType.StoredProcedure;
-            withBlock.CommandTimeout = 900;
-            withBlock.CommandText = StoredProcedure;
-        }
-        aAdapter.SelectCommand = cmdString;
-        aAdapter.Fill(aDataSet);
-        // If aDataSet.Tables(0).Rows.Count > 0 Then
-        // frmUpdateRecord.dgvRecordIDTest.DataSource = aDataSet.Tables(0)
-        // End If
-        connString.Close();
-    }
-    // Fills the patient/doctor ID comboboxes on frmAddRecordPrescription
-    public void AddPartiesPrescription(string Procedure, string DGVOutput)
-    {
-        try
-        {
-            cmdString.Parameters.Clear();
-            connString.Open();
-            {
-                var withBlock = cmdString;
-                withBlock.Connection = connString;
-                withBlock.CommandType = CommandType.StoredProcedure;
-                withBlock.CommandTimeout = 900;
-                withBlock.CommandText = Procedure;
-            }
-            aAdapter.SelectCommand = cmdString;
-            aAdapter.Fill(aDataSet);
-            if ((aDataSet.Tables(0).Rows.Count > 0))
-            {
-                switch (DGVOutput)
-                {
-                    case "dgvRecordIDTest":
-                        {
-                            break;
-                        }
-
-                    case "dgvRecordIDTest2":
-                        {
-                            break;
-                        }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-        }
-
-        connString.Close();
-    }
-    public void AddPrescription()
-    {
-        cmdString.Parameters.Clear();
-        connString.Open();
-        {
-            var withBlock = cmdString;
-            withBlock.Connection = connString;
-            withBlock.CommandType = CommandType.StoredProcedure;
-            withBlock.CommandTimeout = 900;
-            withBlock.CommandText = "VIEWPRESCRIPTIONS";
-        }
-        aAdapter.SelectCommand = cmdString;
-        aAdapter.Fill(aDataSet);
-        if (aDataSet.Tables(0).Rows.Count > 0)
-        {
-        }
-        connString.Close();
-    }
-    public DataSet FillUpdateForms(string Record_ID, string StoredProcedure, string DataBaseColumn)
-    {
-        try
-        {
-            cmdString.Parameters.Clear();
-            connString.Open();
-            cmdString.Connection = connString;
-            cmdString.CommandType = CommandType.StoredProcedure;
-            cmdString.CommandTimeout = 1500;
-            cmdString.CommandText = StoredProcedure;
-            cmdString.Parameters.AddWithValue(DataBaseColumn, Record_ID);
-            aAdapter.SelectCommand = cmdString;
-            aAdapter.Fill(aDataSet);
-            return aDataSet;
-        }
-        catch (Exception ex)
-        {
-            throw new ArgumentException(ex.Message);
-        }
-        finally
-        {
-            connString.Close();
-        }
-    }
-    public DataSet ViewPrescription(string PRESCRIPTION_ID)
-    {
-        try
-        {
-            connString.Open();
-            cmdString.Connection = connString;
-            cmdString.CommandType = CommandType.StoredProcedure;
-            cmdString.CommandTimeout = 1500;
-            cmdString.CommandText = "CHECKPRESCRIPTION";
-            cmdString.Parameters.AddWithValue("@PRESCRIPTION_ID", PRESCRIPTION_ID);
-            aAdapter.SelectCommand = cmdString;
-            aAdapter.Fill(aDataSet);
-            return aDataSet;
-        }
-        catch (Exception ex)
-        {
-            throw new ArgumentException(ex.Message);
-        }
-        connString.Close();
-    }
-    public void CheckUpdateNulls(TextBox FormObject, string Output)
-    {
-        if ((FormObject.Text == "N/A"))
-        {
-            FormObject.Text = "";
-            // Return that there are empty textboxes
-            Reply = "Fail";
-            return;
-        }
     }
     public void UpdatePhysician(string PHYSICIAN_ID, string FNAME, string MIDINIT, string LNAME, string GENDER, string STREET, string CITY, string PHYSICIAN_STATE, decimal ZIP, DateTime DOB, string OFFICE_PHONE, string PERSONAL_PHONE, string WORK_EMAIL, string EMAIL_I, string EMAIL_II, string POSITION, string SPECIALTY, decimal SALARY)
     {
@@ -826,24 +856,7 @@ namespace WebFinalProject
         connString.Close();
     }
 
-    public void ViewRecordID(string StoredProcedure)
-    {
-        cmdString.Parameters.Clear();
-        connString.Open();
-        {
-            var withBlock = cmdString;
-            withBlock.Connection = connString;
-            withBlock.CommandType = CommandType.StoredProcedure;
-            withBlock.CommandTimeout = 900;
-            withBlock.CommandText = StoredProcedure;
-        }
-        aAdapter.SelectCommand = cmdString;
-        aAdapter.Fill(aDataSet);
-        connString.Close();
-    }
-    public void ViewPrescription()
-    {
-        try
+        public void ViewRecordID(string StoredProcedure)
         {
             cmdString.Parameters.Clear();
             connString.Open();
@@ -852,116 +865,135 @@ namespace WebFinalProject
                 withBlock.Connection = connString;
                 withBlock.CommandType = CommandType.StoredProcedure;
                 withBlock.CommandTimeout = 900;
-                withBlock.CommandText = "VIEWPRESCRIPTIONS";
+                withBlock.CommandText = StoredProcedure;
             }
             aAdapter.SelectCommand = cmdString;
             aAdapter.Fill(aDataSet);
+            connString.Close();
         }
-        catch (Exception ex)
+        public void ViewPrescription()
         {
-            Reply = ex.ToString();
+            try
+            {
+                cmdString.Parameters.Clear();
+                connString.Open();
+                {
+                    var withBlock = cmdString;
+                    withBlock.Connection = connString;
+                    withBlock.CommandType = CommandType.StoredProcedure;
+                    withBlock.CommandTimeout = 900;
+                    withBlock.CommandText = "VIEWPRESCRIPTIONS";
+                }
+                aAdapter.SelectCommand = cmdString;
+                aAdapter.Fill(aDataSet);
+            }
+            catch (Exception ex)
+            {
+                Reply = ex.ToString();
+            }
+            return aDataSet;
+            connString.Close();
         }
-        return aDataSet;
-        connString.Close();
+        public void GetPrescriptionByID(object prescriptionID)
+        {
+            try
+            {
+                cmdString.Parameters.Clear();
+                connString.Open();
+                {
+                    var withBlock = cmdString;
+                    withBlock.Connection = connString;
+                    withBlock.CommandType = CommandType.StoredProcedure;
+                    withBlock.CommandTimeout = 900;
+                    withBlock.CommandText = "CHECKPRESCRIPTION";
+                    withBlock.Parameters.AddWithValue("@PRESCRIPTION_ID", prescriptionID);
+                }
+                aAdapter.SelectCommand = cmdString;
+                aAdapter.Fill(aDataSet);
+            }
+            catch (Exception ex)
+            {
+            }
+            connString.Close();
+            return aDataSet;
+        }
+        public void ViewPrescriptionByPatient(string PATIENT_ID)
+        {
+            try
+            {
+                cmdString.Parameters.Clear();
+                connString.Open();
+                {
+                    var withBlock = cmdString;
+                    withBlock.Connection = connString;
+                    withBlock.CommandType = CommandType.StoredProcedure;
+                    withBlock.CommandTimeout = 900;
+                    withBlock.CommandText = "CHECKPRESCRIPTIONSBYPATIENT";
+                    withBlock.Parameters.AddWithValue("@PATIENT_ID", PATIENT_ID);
+                }
+                aAdapter.SelectCommand = cmdString;
+                aAdapter.Fill(aDataSet);
+                if (aDataSet.Tables(0).Rows.Count > 0)
+                {
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            connString.Close();
+        }
+        public void ViewPhysician(string PHYSICIAN_ID)
+        {
+            try
+            {
+                cmdString.Parameters.Clear();
+                connString.Open();
+                {
+                    var withBlock = cmdString;
+                    withBlock.Connection = connString;
+                    withBlock.CommandType = CommandType.StoredProcedure;
+                    withBlock.CommandTimeout = 900;
+                    withBlock.CommandText = "CHECKPHYSICIANS";
+                    withBlock.Parameters.AddWithValue("@PHYSICIAN_ID", PHYSICIAN_ID);
+                }
+                aAdapter.SelectCommand = cmdString;
+                aAdapter.Fill(aDataSet);
+                if (aDataSet.Tables(0).Rows.Count > 0)
+                {
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            connString.Close();
+        }
+        public void ViewPatient(string PATIENT_ID)
+        {
+            try
+            {
+                cmdString.Parameters.Clear();
+                connString.Open();
+                {
+                    var withBlock = cmdString;
+                    withBlock.Connection = connString;
+                    withBlock.CommandType = CommandType.StoredProcedure;
+                    withBlock.CommandTimeout = 900;
+                    withBlock.CommandText = "CHECKPATIENTS";
+                    withBlock.Parameters.AddWithValue("@PATIENT_ID", PATIENT_ID);
+                }
+                aAdapter.SelectCommand = cmdString;
+                aAdapter.Fill(aDataSet);
+                if (aDataSet.Tables(0).Rows.Count > 0)
+                {
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            connString.Close();
+        }
     }
-    public void GetPrescriptionByID(object prescriptionID)
-    {
-        try
-        {
-            cmdString.Parameters.Clear();
-            connString.Open();
-            {
-                var withBlock = cmdString;
-                withBlock.Connection = connString;
-                withBlock.CommandType = CommandType.StoredProcedure;
-                withBlock.CommandTimeout = 900;
-                withBlock.CommandText = "CHECKPRESCRIPTION";
-                withBlock.Parameters.AddWithValue("@PRESCRIPTION_ID", prescriptionID);
-            }
-            aAdapter.SelectCommand = cmdString;
-            aAdapter.Fill(aDataSet);
-        }
-        catch (Exception ex)
-        {
-        }
-        connString.Close();
-        return aDataSet;
-    }
-    public void ViewPrescriptionByPatient(string PATIENT_ID)
-    {
-        try
-        {
-            cmdString.Parameters.Clear();
-            connString.Open();
-            {
-                var withBlock = cmdString;
-                withBlock.Connection = connString;
-                withBlock.CommandType = CommandType.StoredProcedure;
-                withBlock.CommandTimeout = 900;
-                withBlock.CommandText = "CHECKPRESCRIPTIONSBYPATIENT";
-                withBlock.Parameters.AddWithValue("@PATIENT_ID", PATIENT_ID);
-            }
-            aAdapter.SelectCommand = cmdString;
-            aAdapter.Fill(aDataSet);
-            if (aDataSet.Tables(0).Rows.Count > 0)
-            {
-            }
-        }
-        catch (Exception ex)
-        {
-        }
-        connString.Close();
-    }
-    public void ViewPhysician(string PHYSICIAN_ID)
-    {
-        try
-        {
-            cmdString.Parameters.Clear();
-            connString.Open();
-            {
-                var withBlock = cmdString;
-                withBlock.Connection = connString;
-                withBlock.CommandType = CommandType.StoredProcedure;
-                withBlock.CommandTimeout = 900;
-                withBlock.CommandText = "CHECKPHYSICIANS";
-                withBlock.Parameters.AddWithValue("@PHYSICIAN_ID", PHYSICIAN_ID);
-            }
-            aAdapter.SelectCommand = cmdString;
-            aAdapter.Fill(aDataSet);
-            if (aDataSet.Tables(0).Rows.Count > 0)
-            {
-            }
-        }
-        catch (Exception ex)
-        {
-        }
-        connString.Close();
-    }
-    public void ViewPatient(string PATIENT_ID)
-    {
-        try
-        {
-            cmdString.Parameters.Clear();
-            connString.Open();
-            {
-                var withBlock = cmdString;
-                withBlock.Connection = connString;
-                withBlock.CommandType = CommandType.StoredProcedure;
-                withBlock.CommandTimeout = 900;
-                withBlock.CommandText = "CHECKPATIENTS";
-                withBlock.Parameters.AddWithValue("@PATIENT_ID", PATIENT_ID);
-            }
-            aAdapter.SelectCommand = cmdString;
-            aAdapter.Fill(aDataSet);
-            if (aDataSet.Tables(0).Rows.Count > 0)
-            {
-            }
-        }
-        catch (Exception ex)
-        {
-        }
-        connString.Close();
-    }
+
 
 
 }
