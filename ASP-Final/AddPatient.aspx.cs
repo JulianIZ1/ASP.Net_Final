@@ -36,6 +36,7 @@ namespace WebFinalProject
             DBConnection aAddRecordPatient = new DBConnection();
             string Reply;
             var textBoxes = this.Controls.OfType<TextBox>;
+
             int errCount = 0;
             try
             {

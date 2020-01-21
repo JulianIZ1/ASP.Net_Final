@@ -12,7 +12,7 @@ using System.Web.SessionState;
 namespace WebFinalProject
 {
 
-    
+
 
     public class DBConnection
     {
@@ -1047,3 +1047,4 @@ namespace WebFinalProject
             connString.Close();
         }
     }
+}
