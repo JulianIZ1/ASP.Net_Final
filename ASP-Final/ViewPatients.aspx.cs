@@ -175,9 +175,9 @@ namespace WebFinalProject
             }
         }
         private void grdStudents_Sorting(object sender, System.Web.UI.WebControls.GridViewSortEventArgs e)
-{
-    SortRecords(e.SortExpression);
-}
+        {
+             SortRecords(e.SortExpression);
+        }
 
     }
-}
+}      
