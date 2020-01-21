@@ -8,18 +8,19 @@ using System.Data.SqlClient;
 using System.Data;
 using Microsoft.VisualBasic;
 using System.Web.SessionState;
+using System.Text;
 
 namespace WebFinalProject
 {
 
-    
+
 
     public class DBConnection
     {
-        public SqlClient.SqlConnection connString = new SqlClient.SqlConnection("server=CNSA07E-SVR; initial catalog=REFILL_PROJECT; integrated security=SSPI; connect timeout=10;");
-        public SqlClient.SqlCommand cmdString = new SqlClient.SqlCommand();
+        public System.Data.SqlClient.SqlConnection connString = new System.Data.SqlClient.SqlConnection("server=CNSA07E-SVR; initial catalog=REFILL_PROJECT; integrated security=SSPI; connect timeout=10;");
+        public System.Data.SqlClient.SqlCommand cmdString = new System.Data.SqlClient.SqlCommand();
         public string Reply, Reply2;
-        public SqlClient.SqlDataAdapter aAdapter = new SqlClient.SqlDataAdapter();
+        public System.Data.SqlClient.SqlDataAdapter aAdapter = new System.Data.SqlClient.SqlDataAdapter();
         public DataSet aDataSet = new DataSet();
         public string userPassword = "";
         public string hidePassword = "";
@@ -86,7 +87,7 @@ namespace WebFinalProject
             return Reply == "";
         }
 
-        public void ViewPatients()
+        public DataSet ViewPatients()
         {
             try
             {
@@ -96,7 +97,7 @@ namespace WebFinalProject
                 cmdString.CommandType = CommandType.StoredProcedure;
                 cmdString.CommandTimeout = 1500;
                 cmdString.CommandText = "VIEWPATIENTS";
-                SqlClient.SqlDataAdapter aAdapter = new SqlClient.SqlDataAdapter();
+                System.Data.SqlClient.SqlDataAdapter aAdapter = new System.Data.SqlClient.SqlDataAdapter();
                 aAdapter.SelectCommand = cmdString;
                 DataSet aDataSet = new DataSet();
                 aAdapter.Fill(aDataSet);
@@ -122,7 +123,7 @@ namespace WebFinalProject
                 cmdString.CommandType = CommandType.StoredProcedure;
                 cmdString.CommandTimeout = 1500;
                 cmdString.CommandText = "VIEWPHYSICIANS";
-                SqlClient.SqlDataAdapter aAdapter = new SqlClient.SqlDataAdapter();
+                System.Data.SqlClient.SqlDataAdapter aAdapter = new System.Data.SqlClient.SqlDataAdapter();
                 aAdapter.SelectCommand = cmdString;
                 DataSet aDataSet = new DataSet();
                 aAdapter.Fill(aDataSet);
@@ -148,7 +149,7 @@ namespace WebFinalProject
                 cmdString.CommandType = CommandType.StoredProcedure;
                 cmdString.CommandTimeout = 1500;
                 cmdString.CommandText = "VIEWPRESCRIPTIONS";
-                SqlClient.SqlDataAdapter aAdapter = new SqlClient.SqlDataAdapter();
+                System.Data.SqlClient.SqlDataAdapter aAdapter = new System.Data.SqlClient.SqlDataAdapter();
                 aAdapter.SelectCommand = cmdString;
                 DataSet aDataSet = new DataSet();
                 aAdapter.Fill(aDataSet);
@@ -175,7 +176,7 @@ namespace WebFinalProject
                 cmdString.CommandTimeout = 1500;
                 cmdString.CommandText = "CHECKPATIENTS";
                 cmdString.Parameters.Add("@PATIENT_ID", SqlDbType.VarChar, 5).Value = patientID;
-                SqlClient.SqlDataAdapter aAdapter = new SqlClient.SqlDataAdapter();
+                System.Data.SqlClient.SqlDataAdapter aAdapter = new System.Data.SqlClient.SqlDataAdapter();
                 aAdapter.SelectCommand = cmdString;
                 DataSet aDataSet = new DataSet();
                 aAdapter.Fill(aDataSet);
@@ -202,7 +203,7 @@ namespace WebFinalProject
                 cmdString.CommandTimeout = 1500;
                 cmdString.CommandText = "CHECKPHYSICIANS";
                 cmdString.Parameters.Add("@PHYSICIAN_ID", SqlDbType.VarChar, 5).Value = physicianID;
-                SqlClient.SqlDataAdapter aAdapter = new SqlClient.SqlDataAdapter();
+                System.Data.SqlClient.SqlDataAdapter aAdapter = new System.Data.SqlClient.SqlDataAdapter();
                 aAdapter.SelectCommand = cmdString;
                 DataSet aDataSet = new DataSet();
                 aAdapter.Fill(aDataSet);
@@ -329,7 +330,7 @@ namespace WebFinalProject
                     withBlock.Parameters.AddWithValue("@LNAME", LNAME);
                     withBlock.Parameters.AddWithValue("@GENDER", GENDER);
                 }
-                SqlClient.SqlDataAdapter aAdapter = new SqlClient.SqlDataAdapter();
+                System.Data.SqlClient.SqlDataAdapter aAdapter = new System.Data.SqlClient.SqlDataAdapter();
                 aAdapter.SelectCommand = cmdString;
                 DataSet aDataSet = new DataSet();
                 aAdapter.Fill(aDataSet);
@@ -363,7 +364,7 @@ namespace WebFinalProject
                     withBlock.Parameters.AddWithValue("@MEDICATION_NAME", MEDICATION_NAME);
                     withBlock.Parameters.AddWithValue("@PHYSICIAN_ID", PHYSICIAN_ID);
                 }
-                SqlClient.SqlDataAdapter aAdapter = new SqlClient.SqlDataAdapter();
+                System.Data.SqlClient.SqlDataAdapter aAdapter = new System.Data.SqlClient.SqlDataAdapter();
                 aAdapter.SelectCommand = cmdString;
                 DataSet aDataSet = new DataSet();
                 aAdapter.Fill(aDataSet);
@@ -401,7 +402,7 @@ namespace WebFinalProject
                     withBlock.Parameters.AddWithValue("@POSITION", POSITION);
                     withBlock.Parameters.AddWithValue("@SPECIALTY", SPECIALTY);
                 }
-                SqlClient.SqlDataAdapter aAdapter = new SqlClient.SqlDataAdapter();
+                System.Data.SqlClient.SqlDataAdapter aAdapter = new System.Data.SqlClient.SqlDataAdapter();
                 aAdapter.SelectCommand = cmdString;
                 DataSet aDataSet = new DataSet();
                 aAdapter.Fill(aDataSet);
@@ -543,10 +544,6 @@ namespace WebFinalProject
             connString.Close();
         }
 
-
-
-
-
         // Uses the stored procedure ADDPHYSICIAN to add a physician record from frmAddRecordPhysician
         public void AddPhysician(string PHYSICIAN_ID, string FNAME, string MIDINIT, string LNAME, string GENDER, string STREET, string CITY, string PHYSICIAN_STATE, decimal ZIP, DateTime DOB, string OFFICE_PHONE, string PERSONAL_PHONE, string WORK_EMAIL, string EMAIL_I, string EMAIL_II, string POSITION, string SPECIALTY, decimal SALARY)
         {
@@ -654,7 +651,7 @@ namespace WebFinalProject
                 }
                 aAdapter.SelectCommand = cmdString;
                 aAdapter.Fill(aDataSet);
-                if ((aDataSet.Tables(0).Rows.Count > 0))
+                if (aDataSet.Tables(0).Rows.Count > 0)
                 {
                     switch (DGVOutput)
                     {
@@ -900,10 +897,6 @@ namespace WebFinalProject
         // ****************************************************************************************
         // ****************************************************************************************
 
-
-
-
-
         public void ViewRecordID(string StoredProcedure)
         {
             cmdString.Parameters.Clear();
@@ -920,8 +913,7 @@ namespace WebFinalProject
             connString.Close();
         }
 
-
-        public void ViewPrescription()
+        public DataSet ViewPrescription()
         {
             try
             {
@@ -945,7 +937,7 @@ namespace WebFinalProject
             connString.Close();
         }
 
-        public void GetPrescriptionByID(object prescriptionID)
+        public DataSet GetPrescriptionByID(object prescriptionID)
         {
             try
             {
@@ -1047,3 +1039,4 @@ namespace WebFinalProject
             connString.Close();
         }
     }
+}
