@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.IO;
 using System.Security.Cryptography;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace WebFinalProject
 {
@@ -22,9 +24,8 @@ namespace WebFinalProject
             private byte[] key = new[] { };
             private byte[] IV = new[] { 0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF };
        
-    }
-    public void LoginCheck(object username)
-    {
+        public void LoginCheck(object username)
+        {
         try
         {
             cmdString.Parameters.Clear();
@@ -79,7 +80,9 @@ namespace WebFinalProject
             return;
         }
         return Reply == "";
+        }
     }
+
     public void ViewPatients()
     {
         try
@@ -996,3 +999,4 @@ namespace WebFinalProject
             connString.Close();
         }
 }
+    
