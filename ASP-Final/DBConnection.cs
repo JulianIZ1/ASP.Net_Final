@@ -9,10 +9,11 @@ using System.Data;
 
 namespace WebFinalProject
 {
+
     public class DBConnection
     {
-            public SqlConnection connString = new SqlConnection("server=DESKTOP-U98Q6LB; initial catalog=REFILL_PROJECT; integrated security=SSPI; connect timeout=10;");
-            public SqlCommand cmdString = new SqlCommand();
+            SqlConnection connString = new SqlConnection(@"Data Source=DESKTOP-U98Q6LB;Initial Catalog=REFILL_PROJECT;Integrated Security=True");
+            SqlCommand cmdString = new SqlCommand();
             public string Reply, Reply2;
             public SqlDataAdapter aAdapter = new SqlDataAdapter();
             public DataSet aDataSet = new DataSet();
@@ -26,6 +27,9 @@ namespace WebFinalProject
     }
     public void LoginCheck(object username)
     {
+        SqlConnection connString = new SqlConnection(@"Data Source=DESKTOP-U98Q6LB;Initial Catalog=REFILL_PROJECT;Integrated Security=True");
+        SqlCommand cmdString = new SqlCommand();
+
         try
         {
             cmdString.Parameters.Clear();
@@ -45,7 +49,7 @@ namespace WebFinalProject
                     withBlock.CommandTimeout = 900;
                     switch (UserType)
                     {
-                        case object _ when ("P").ToUpper():
+                        case object _ when "P".ToUpper():
                             {
                                 withBlock.CommandText = "CHECKPATIENTS";
                                 withBlock.Parameters.Add("@PATIENT_ID", SqlDbType.VarChar, 5).Value = username;
