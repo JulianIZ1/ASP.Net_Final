@@ -74,6 +74,7 @@
     <Content Include="Dashboard.aspx" />
     <Content Include="DashboardCSS.css" />
     <Content Include="Edit.jpg" />
+    <Content Include="Global.asax" />
     <Content Include="Home.html" />
     <Content Include="main.css" />
     <Content Include="MasterStyle.css" />
@@ -128,6 +129,9 @@
       <DependentUpon>Dashboard.aspx</DependentUpon>
     </Compile>
     <Compile Include="DBConnection.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="MasterPage.Master.cs">
       <DependentUpon>MasterPage.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
