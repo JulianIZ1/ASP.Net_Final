@@ -6,13 +6,12 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Data.SqlClient;
 using System.Data;
-using FParsec;
 
 namespace WebFinalProject
 {
     public class DBConnection
     {
-            public SqlConnection connString = new SqlConnection("server=CNSA07E-SVR; initial catalog=REFILL_PROJECT; integrated security=SSPI; connect timeout=10;");
+            public SqlConnection connString = new SqlConnection("server=DESKTOP-U98Q6LB; initial catalog=REFILL_PROJECT; integrated security=SSPI; connect timeout=10;");
             public SqlCommand cmdString = new SqlCommand();
             public string Reply, Reply2;
             public SqlDataAdapter aAdapter = new SqlDataAdapter();
@@ -83,7 +82,7 @@ namespace WebFinalProject
         return Reply == "";
     }
 
-    /*
+
     public void ViewPatients()
     {
         try
@@ -768,46 +767,6 @@ namespace WebFinalProject
         }
         connString.Close();
     }
-    public void UpdatePhysician(string PHYSICIAN_ID, string FNAME, string MIDINIT, string LNAME, string GENDER, string STREET, string CITY, string PHYSICIAN_STATE, decimal ZIP, DateTime DOB, string OFFICE_PHONE, string PERSONAL_PHONE, string WORK_EMAIL, string EMAIL_I, string EMAIL_II, string POSITION, string SPECIALTY, decimal SALARY)
-    {
-        try
-        {
-            cmdString.Parameters.Clear();
-            connString.Open();
-
-            {
-                var withBlock = cmdString;
-                withBlock.Connection = connString;
-                withBlock.CommandType = CommandType.StoredProcedure;
-                withBlock.CommandTimeout = 900;
-                withBlock.CommandText = "UPDATEPHYSICIAN";
-                withBlock.Parameters.AddWithValue("@PHYSICIAN_ID", PHYSICIAN_ID);
-                withBlock.Parameters.AddWithValue("@FNAME", FNAME);
-                withBlock.Parameters.AddWithValue("@MIDINIT", MIDINIT);
-                withBlock.Parameters.AddWithValue("@LNAME", LNAME);
-                withBlock.Parameters.AddWithValue("@GENDER", GENDER);
-                withBlock.Parameters.AddWithValue("@STREET", STREET);
-                withBlock.Parameters.AddWithValue("@CITY", CITY);
-                withBlock.Parameters.AddWithValue("@PHYSICIAN_STATE", PHYSICIAN_STATE);
-                withBlock.Parameters.AddWithValue("@ZIP", ZIP);
-                withBlock.Parameters.AddWithValue("@DOB", DOB);
-                withBlock.Parameters.AddWithValue("@OFFICE_PHONE", OFFICE_PHONE);
-                withBlock.Parameters.AddWithValue("@PERSONAL_PHONE", PERSONAL_PHONE);
-                withBlock.Parameters.AddWithValue("@WORK_EMAIL", WORK_EMAIL);
-                withBlock.Parameters.AddWithValue("@EMAIL_I", EMAIL_I);
-                withBlock.Parameters.AddWithValue("@EMAIL_II", EMAIL_II);
-                withBlock.Parameters.AddWithValue("@POSITION", POSITION);
-                withBlock.Parameters.AddWithValue("@SPECIALTY", SPECIALTY);
-                withBlock.Parameters.AddWithValue("@SALARY", SALARY);
-                withBlock.ExecuteNonQuery();
-            }
-        }
-        catch (Exception ex)
-        {
-            throw new ArgumentException(ex.Message);
-        }
-        connString.Close();
-    }
     public void UpdatePrescription(string PRESCRIPTION_ID, string MEDICATION_NAME, decimal REFILL_AMT, DateTime REFILL_DATE, string DOSAGE, string INTAKE_METHOD, string FREQUENCY, string PHYSICIAN_ID, string PATIENT_ID)
     {
         try
@@ -999,6 +958,6 @@ namespace WebFinalProject
         }
         connString.Close();
     }
-    */
+
 
 }
