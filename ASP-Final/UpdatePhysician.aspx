@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="UpdatePhysician.aspx.cs" Inherits="WebFinalProject.UpdatePhysician1" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="UpdatePhysician.aspx.cs" Inherits="ASP_Final.UpdatePhysician" %>
 <asp:Content ID="ContentPlaceHolder1" runat="server" contentplaceholderid="ContentPlaceHolder1">
     <script type="text/javascript">
         function Validate() {

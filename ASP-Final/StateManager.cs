@@ -18,7 +18,7 @@ using System.Xml;
 using System.Web;
 //using System.Web.Caching;
 
-namespace WebFinalProject
+namespace ASP_Final
 {
     public class StateManager
     {

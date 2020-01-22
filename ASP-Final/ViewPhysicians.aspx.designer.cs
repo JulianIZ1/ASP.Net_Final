@@ -7,11 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebFinalProject
+namespace ASP_Final
 {
 
 
-    public partial class ViewPhysician
+    public partial class ViewPhysicians
     {
 
         /// <summary>

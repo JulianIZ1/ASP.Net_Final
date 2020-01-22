@@ -10,7 +10,7 @@ using Microsoft.VisualBasic;
 using System.Web.SessionState;
 using System.Text;
 
-namespace WebFinalProject
+namespace ASP_Final
 {
 
 
@@ -254,7 +254,7 @@ namespace WebFinalProject
             }
             connString.Close();
         }
-        public void DBConnection(string ProcedureType)
+        public void DBConnections(string ProcedureType)
         {
             try
             {
@@ -277,7 +277,7 @@ namespace WebFinalProject
             try
             {
                 string ProcedureType = "ADDPATIENT";
-                DBConnection(ProcedureType);
+                DBConnections(ProcedureType);
                 {
                     var withBlock = cmdString;
                     withBlock.Parameters.AddWithValue("@PATIENT_ID", PATIENT_ID);

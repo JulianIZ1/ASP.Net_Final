@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="false" CodeBehind="ViewPatients.aspx.cs" Inherits="WebFinalProject.ViewPatients" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="false" CodeBehind="ViewPatients.aspx.cs" Inherits="ASP_Final.ViewPatients" %>
 <asp:Content ID="ContentPlaceHolder1" runat="server" contentplaceholderid="ContentPlaceHolder1">
     <script type="text/javascript">
 

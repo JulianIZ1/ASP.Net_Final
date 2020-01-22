@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace WebFinalProject
+namespace ASP_Final
 {
     public partial class UpdatePrescrition : System.Web.UI.Page
     {

@@ -6,7 +6,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Data;
-namespace WebFinalProject
+
+namespace ASP_Final
 {
     public partial class ViewPatients : System.Web.UI.Page
     {

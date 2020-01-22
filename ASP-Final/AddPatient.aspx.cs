@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace WebFinalProject
+namespace ASP_Final
 {
     public partial class AddPatient : System.Web.UI.Page
     {
@@ -35,7 +35,7 @@ namespace WebFinalProject
         {
             DBConnection aAddRecordPatient = new DBConnection();
             string Reply;
-            var textBoxes = this.Controls.OfType<TextBox>;
+            var textBoxes = this.Controls.OfType<TextBox>();
 
             int errCount = 0;
             try

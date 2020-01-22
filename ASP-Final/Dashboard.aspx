@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="WebFinalProject.Dashboard" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="false" CodeBehind="Dashboard.aspx.cs" Inherits="ASP_Final.Dashboard" %>
 <asp:Content ID="ContentPlaceHolder1" runat="server" contentplaceholderid="ContentPlaceHolder1">
     <link href="main.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="DashboardCSS.css" />
